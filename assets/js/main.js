@@ -23,10 +23,10 @@ const validarResposta = (evt) => {
     //validar a resposta do input
     if (input.value === localStorage.getItem('nomePokemon')) {
         div.style.backgroundColor = '#4caf50';
-        console.log('Resposta certa');
+        localStorage.setItem('pontuacao', String(parseInt(localStorage.getItem('pontuacao')) +100));
     }else{
         div.style.backgroundColor = '#ff5722';
-        console.log('Resposta errada');
+        localStorage.setItem('pontuacao', String(parseInt(localStorage.getItem('pontuacao')) -100));
     }
 
     input.value = "";
@@ -36,13 +36,15 @@ const validarResposta = (evt) => {
     setTimeout(() => {
         div.style.backgroundColor = '#f9f9f9';
         img.style.filter = 'brightness(0)';
-        gerarPokemon(); 
+        gerarPokemon();
+        mostrarPontuacao();
     }, 1000);
 
 }
 
 const mostrarPontuacao = () => {
-    if (localStorage.getItem('pontuacao' == null) ) {
+    if (localStorage.getItem('pontuacao') == null ) {
+        
         localStorage.setItem('pontuacao', '0');
     }
 
@@ -51,5 +53,9 @@ const mostrarPontuacao = () => {
 }
 
 //events
-window.onload = gerarPokemon;
+window.onload = () => {
+    gerarPokemon();
+    mostrarPontuacao();
+}
+
 form.onsubmit = validarResposta;
